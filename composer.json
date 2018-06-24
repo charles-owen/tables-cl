@@ -1,5 +1,5 @@
 {
-  "name" : "tables-cl",
+  "name" : "cl/tables",
   "description": "Convenient classes for managing tables in PHP",
   "type" : "project",
   "license": "MIT",
