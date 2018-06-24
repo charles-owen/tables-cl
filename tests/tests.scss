@@ -1,0 +1,90 @@
+/** @file
+ * Style sheet for test results
+ * @author Charles B. Owen
+ * @cond
+ */
+
+div.tests {
+	h1 {
+      margin: 0;
+		border-bottom: thin solid black;
+	}
+
+	nav {
+		float: right;
+		padding-right: 0.5em;
+      padding-top: 1em;
+	}
+
+	nav a:link {
+		color: black;
+	}
+
+	nav a:visited {
+		color: #bbbbbb;
+	}
+}
+
+
+
+a {
+	text-decoration:underline;
+}
+
+a.clearresults {
+	font-size: 10pt;
+	font-weight:100;
+	color:red;
+	font-style:italic;
+}
+
+p.success {
+	color:green;
+}
+
+p.complete {
+	color: blue;
+	text-align: center;
+	border-top: thin solid black;
+}
+
+ul li {
+	list-style-type: none;
+	list-style-image: none;
+}
+
+ul.tests {
+  columns: 3;
+  -webkit-columns: 3;
+  -moz-columns: 3;
+}
+
+span.verbose {
+	font-size: 10pt;
+	font-weight:100;
+	color:red;
+	font-style:italic;
+}
+
+pre {
+    padding: 1em 1em 1em 1em;
+    border: thin solid #999999;
+    background-color: #eeeeee;
+}
+
+div.expander div, div.expander > p:not(:first-child) {
+    display:none;
+    overflow: hidden;
+    background-color: #eeeeee;
+    padding: 0 0.5em 0 0.5em;
+    margin: 0 1em 0 1em;
+    border: thin solid #CCCCCC;
+}
+
+div.expander > p:not(:first-child) {
+    padding: 0.5em 1em 0.5em 1em;
+}
+
+/** 
+ * @endcond
+ */
