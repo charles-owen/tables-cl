@@ -1,6 +1,5 @@
 {
   "name" : "tables-cl",
-  "version" : "0.0.2",
   "description": "Convenient classes for managing tables in PHP",
   "type" : "project",
   "license": "MIT",

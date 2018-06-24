@@ -1,4 +1,4 @@
-# tables-cl
+# cl/tables
 
 _Some basic classes to handling tables in PDO._
 
@@ -14,7 +14,7 @@ to make a standard library I could install.
 
 ## License
 
-tables-cl is released under the MIT license.
+cl/tables is released under the MIT license.
 
 * * *
 
