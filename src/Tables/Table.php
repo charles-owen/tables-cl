@@ -111,6 +111,27 @@ abstract class Table {
         return $this->config->pdo();
     }
 
+	/**
+	 * Check to see if the table exists
+	 * @return true if it does
+	 */
+    public function exists() {
+    	$sql = <<<SQL
+select 1 from $this->tablename LIMIT 1
+SQL;
+
+	    $stmt = $this->config->pdo->prepare($sql);
+	    try {
+		    if($stmt->execute() === false) {
+			    return false;
+		    }
+	    } catch(\PDOException $exception) {
+		    return false;
+	    }
+
+	    return true;
+    }
+
     /**
      * Convert a system time to the format for storing in the database
      * @param $time Time convert. If omitted, use the current time.

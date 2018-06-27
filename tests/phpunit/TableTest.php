@@ -7,6 +7,7 @@
 require __DIR__ . "/../../vendor/autoload.php";
 require __DIR__ . '/cls/DatabaseTestBase.php';
 require __DIR__ . '/cls/TestTable.php';
+require __DIR__ . '/cls/FakeTable.php';
 
 use CL\Tables\Config;
 use CL\Tables\Table;
@@ -32,6 +33,14 @@ class TableTest extends DatabaseTestBase {
 		$id = $table->add('data', 27, 93);
 		$data = $table->get();
 		$this->assertCount(1, $data);
+	}
+
+	public function testExists() {
+		$table = new TestTable($this->config);
+		$this->assertTrue($table->exists());
+
+		$table = new FakeTable($this->config);
+		$this->assertFalse($table->exists());
 	}
 }
 
