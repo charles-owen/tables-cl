@@ -14,13 +14,12 @@ class Config {
     /**
      * Property getting magic function
      *
-     * Supported properties:
-     * Property | Documentation
-     * ----- | -----
-     * prefix | Table name prefix
-     * private_key | Private key necessary for JWT
-     * public_key | Public key necessary for JWT
-     * secret | The site secret value required for new user creation
+     * <b>Properties</b>
+     * Property | Type | Description
+     * -------- | ---- | -----------
+     * prefix | string | Table name prefix
+     * pdo | \\PDO | The PDO object
+     * dbname | string | The database name (needed for testing)
      *
      * @param string $key Property name
      * @return null|string
@@ -50,10 +49,8 @@ class Config {
     /**
      * Property setting magic function
      *
-     * Supported properties:
-     * Property | Documentation
-     * ----- | -----
-     * secret | The site secret value required for new user creation
+     * <b>Properties</b>
+     * None for now, but maybe in the future?
      *
      * @param $key Property name
      * @param $value Value to set
@@ -83,7 +80,7 @@ class Config {
         $this->dbhost = $dbhost;
         $this->dbname = $dbname;
         $this->dbuser = $dbuser;
-        self::$dbpassword = $dbpassword;
+        $this->dbpassword = $dbpassword;
         $this->prefix = $prefix;
     }
 
@@ -96,7 +93,7 @@ class Config {
             try {
                 $this->pdo = new \PDO($this->dbhost,
                     $this->dbuser,
-                    self::$dbpassword);
+                    $this->dbpassword);
             } catch(\PDOException $e) {
                 throw new TableException("Unable to select database",
 	                TableException::NO_CONNECT);
@@ -106,15 +103,24 @@ class Config {
         return $this->pdo;
     }
 
-    //
-    // Some of the attributes are made static so they will
-    // not display sensitive information when a print_r or
-    // var_dump is used on this object
-    //
+	/**
+	 * Magic function to disable displaying the database configuration.
+	 * @return array Properties to dump
+	 */
+	public function __debugInfo()
+	{
+		$properties = get_object_vars($this);
+		unset($properties['dbuser']);
+		unset($properties['dbhost']);
+		unset($properties['dbpassword']);
+		unset($properties['pdo']);
+		return $properties;
+	}
+
     private $dbhost = null;	    // Database host
 	private $dbname = null;     // Database name
     private $dbuser = null;	    // Database user
-    private static $dbpassword = null;	// Database password
+    private $dbpassword = null;	// Database password
     private $prefix;            ///< Table prefix
 
     private $pdo = null;	///< The PDO object

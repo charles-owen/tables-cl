@@ -2,6 +2,7 @@
 /**
  * @file
  * View class for the unit testing system and testing home page.
+ * \cond
  */
 
 namespace Testing;
@@ -20,23 +21,35 @@ class TestingView {
 	 * Magic property set function.
 	 *
 	 * Properties supported:
-	 *    phpunit - Directory containing PHP Unit tests
 	 *
-	 * @param \Name $name
-	 * @param \Value $value
+	 * Property | Description
+	 * -------- | -----------
+	 * phpunit  | Directory containing PHP Unit tests
+	 *
+	 * @param string $key
+	 * @param $value
 	 */
-	public function __set($name, $value) {
-		switch($name) {
+	public function __set($key, $value) {
+		switch($key) {
 			case 'phpunit':
 				$this->phpunit = $value;
 				break;
 
 			default:
-				parent::__set($name, $value);
+				$trace = debug_backtrace();
+				trigger_error(
+					'Undefined property ' . $key .
+					' in ' . $trace[0]['file'] .
+					' on line ' . $trace[0]['line'],
+					E_USER_NOTICE);
 				break;
 		}
 	}
 
+	/**
+	 * Present all of the HTML for the page
+	 * @return string HTML
+	 */
 	public function all() {
 	    $html = <<<HTML
 <!doctype html>
@@ -62,6 +75,10 @@ HTML;
     }
 
 
+	/**
+	 * Present the body of the HTML page
+	 * @return string HTML
+	 */
 	public function present() {
 		$html = '';
 
@@ -110,5 +127,8 @@ HTML;
 		return $html;
 	}
 
-	private $phpunit = "phpunit";	///< Directory containing PHPUnit tests
+	/// Directory containing PHPUnit tests
+	private $phpunit = "phpunit";
 }
+
+/// \endcond
