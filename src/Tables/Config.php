@@ -94,6 +94,7 @@ class Config {
                 $this->pdo = new \PDO($this->dbhost,
                     $this->dbuser,
                     $this->dbpassword);
+	            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             } catch(\PDOException $e) {
                 throw new TableException("Unable to select database",
 	                TableException::NO_CONNECT);
