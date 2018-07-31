@@ -1,4 +1,5 @@
 <?php
+/// \cond
 
 use CL\Tables\Config;
 use CL\Tables\Table;
@@ -11,3 +12,5 @@ class FakeTable extends Table {
 		parent::__construct($config, "ymbztqexor");
 	}
 }
+
+/// \endcond

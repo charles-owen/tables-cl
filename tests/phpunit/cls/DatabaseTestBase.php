@@ -1,6 +1,7 @@
 <?php
 /** @file
  * Base class for database tests.
+ * \cond
  */
 
 use CL\Tables\Config;
@@ -77,3 +78,5 @@ abstract class DatabaseTestBase extends PHPUnit_Extensions_Database_TestCase {
     protected $config = null;
     private $connection = null;
 }
+
+/// \endcond

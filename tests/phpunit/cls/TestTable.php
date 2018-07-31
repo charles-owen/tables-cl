@@ -1,4 +1,5 @@
 <?php
+/// \cond
 
 use CL\Tables\Config;
 use CL\Tables\Table;
@@ -81,3 +82,6 @@ SQL;
 
 	}
 }
+
+/// \endcond
+
