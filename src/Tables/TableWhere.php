@@ -83,16 +83,21 @@ class TableWhere {
     }
 
     /**
-     * End a current testing
+     * End a current nesting
      */
     public function unnest() {
-        if(strlen($this->wherestack[0]) > 0) {
-            if($this->where === '') {
-                $this->where = "where (" . $this->wherestack[0] . ")";
-            } else {
-                $this->where .= " " . $this->opstack[0] . " (" . $this->wherestack[0] . ")";
-            }
-        }
+    	if(count($this->wherestack) > 1) {
+    		$this->wherestack[1] .= " " . $this->opstack[0] . " (" . $this->wherestack[0] . ")";
+	    } else {
+		    if(strlen($this->wherestack[0]) > 0) {
+			    if($this->where === '') {
+				    $this->where = "where (" . $this->wherestack[0] . ")";
+			    } else {
+				    $this->where .= " " . $this->opstack[0] . " (" . $this->wherestack[0] . ")";
+			    }
+		    }
+
+	    }
 
         array_shift($this->opstack);
         array_shift($this->wherestack);
