@@ -3,15 +3,22 @@
  * Base class for all table model classes
  */
 
+/// Classes in the cl/tables package
 namespace CL\Tables;
+
+use \PDO;
 
 /**
  * Base class for all table model classes
+ *
+ * @cond
+ * @property PDO pdo
+ * @endcond
  */
 abstract class Table {
 	/** Constructor
 	 * @param Config $config Database configuration object
-	 * @param $name Table base name to use.
+	 * @param string $name Table base name to use.
 	 */
 	public function __construct(Config $config, $name) {
         $this->config = $config;

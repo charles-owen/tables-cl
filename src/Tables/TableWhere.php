@@ -6,8 +6,14 @@
 
 namespace CL\Tables;
 
+use \PDOStatement;
+
 /**
  * Class that makes it easy to add where options to an SQL query
+ *
+ * @cond
+ * @property string where
+ * @endcond
  */
 class TableWhere {
     /**
@@ -20,22 +26,22 @@ class TableWhere {
 
 	/**
 	 * Property get magic method
-	 * @param $key Property name
+	 * @param string $property Property name
 	 *
 	 * Properties supported:
 	 * where The generated WHERE statement
 	 *
 	 * @return null|string
 	 */
-	public function __get($key) {
-		switch($key) {
+	public function __get($property) {
+		switch($property) {
 			case "where":
 				return $this->where;
 
 			default:
 				$trace = debug_backtrace();
 				trigger_error(
-					'Undefined property ' . $key .
+					'Undefined property ' . $property .
 					' in ' . $trace[0]['file'] .
 					' on line ' . $trace[0]['line'],
 					E_USER_NOTICE);
@@ -45,12 +51,12 @@ class TableWhere {
 
     /**
      * Append a new parameter to where and exec
-     * @param $test Test to add to where
-     * @param $value Value to sub for ? in test
+     * @param string $test Test to add to where
+     * @param mixed $value Value to sub for ? in test
      * @param int $type Type of parameter (like PDO::PARAM_INT)
      * @param string $op Operator to add test (default="and")
      */
-    public function append($test, $value, $type=\PDO::PARAM_STR, $op="and") {
+    public function append($test, $value=null, $type=\PDO::PARAM_STR, $op="and") {
         if($test !== null) {
             if(count($this->wherestack) > 0) {
                 if($this->wherestack[0] === '') {
@@ -68,9 +74,22 @@ class TableWhere {
 
         }
 
-        $this->exec[] = $value;
-        $this->binds[] = [$value, $type];
+        if($value !== null) {
+	        $this->exec[] = $value;
+	        $this->binds[] = [$value, $type];
+        }
     }
+
+	/**
+	 * Append onto exec only.
+	 * @param mixed $value Value to sub for ? in test
+	 * @param int $type Type of parameter (like PDO::PARAM_INT)
+	 * @param string $op Operator to add test (default="and")
+	 */
+	public function appendExec($value=null, $type=\PDO::PARAM_STR) {
+		$this->exec[] = $value;
+		$this->binds[] = [$value, $type];
+	}
 
     /**
      * Start nesting where conditions. Allows for and/or combinations
@@ -112,12 +131,12 @@ class TableWhere {
         return $this->table->sub_sql($sql, $this->exec);
     }
 
-    /**
-     * Execute the SQL statement, filling in the query appropriately.
-     * @param $sql SQL statement to execute
-     * @return PDOStatement
-     * @throws APIException
-     */
+	/**
+	 * Execute the SQL statement, filling in the query appropriately.
+	 * @param string $sql SQL statement to execute
+	 * @return PDOStatement
+	 * @throws TableException
+	 */
     public function execute($sql) {
         try {
             $stmt = $this->table->pdo()->prepare($sql);
