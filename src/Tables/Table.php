@@ -152,6 +152,27 @@ SQL;
         return date("Y-m-d H:i:s", $time);
     }
 
+
+	/**
+	 * Check if a named index exits in a table
+	 * @param $name
+	 * @return bool true if named exit exists
+	 */
+	public function indexExists($name) {
+		$pdo = $this->pdo();
+		$sql = "show index from $this->tablename";
+		$stmt = $pdo->prepare($sql);
+		$stmt->execute();
+
+		foreach($stmt as $row) {
+			if($row['Key_name'] === $name) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/** Create the appropriate SQL CREATE TABLE command to create the table. */
 	public function createSQL() {
 	}
