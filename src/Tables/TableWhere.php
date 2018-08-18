@@ -84,7 +84,6 @@ class TableWhere {
 	 * Append onto exec only.
 	 * @param mixed $value Value to sub for ? in test
 	 * @param int $type Type of parameter (like PDO::PARAM_INT)
-	 * @param string $op Operator to add test (default="and")
 	 */
 	public function appendExec($value=null, $type=\PDO::PARAM_STR) {
 		$this->exec[] = $value;
