@@ -53,7 +53,7 @@ class TestingView {
 	public function all() {
 	    $html = <<<HTML
 <!doctype html>
-<html lang=en-US>
+<html lang="en-US">
 <head>
 <title>Testing</title>
 <link href="tests.css" type="text/css" rel="stylesheet" />
