@@ -192,6 +192,16 @@ SQL;
 	 */
 	public function alter() {}
 
+	/**
+	 * Table cleaning. Override for tables that have some
+	 * cleaning functionality.
+	 * @return string Text result of cleaning of null if not implemented.
+	 */
+	public function clean() {
+		return null;
+	}
+
+
 	protected $config;      ///< The configuration object
 	protected $tableprefix;	///< Table name prefix
 	protected $tablename;	///< Table name to use

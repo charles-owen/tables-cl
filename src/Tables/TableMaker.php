@@ -116,6 +116,27 @@ abstract class TableMaker {
         return true;
     }
 
+	/**
+	 * Do any table cleaning that is available.
+	 * @return string Result of the cleaning as a test message
+	 */
+    public function clean() {
+    	$result = '';
+
+	    foreach($this->tables as $table) {
+		    $ret = $table->clean();
+		    if($ret !== null) {
+		    	$result .= $ret;
+		    }
+	    }
+
+	    if(strlen($result) > 0) {
+	    	return $result;
+	    }
+
+    	return "No cleaning specified for this table type\n";
+    }
+
     private $config;
     private $tables = array();
     private $makers = array();
