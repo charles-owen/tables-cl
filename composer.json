@@ -19,6 +19,11 @@
       "type": "vcs",
       "url": "https://github.com/charles-owen/tables-cl.git"
     }
-  ]
+  ],
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
 }
 
