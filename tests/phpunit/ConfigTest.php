@@ -7,7 +7,7 @@ require_once __DIR__ . '/../initialize.php';
 
 use CL\Tables\Config;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit\Framework\TestCase
 {
 	public function testConstruct() {
 		$config = new Config();

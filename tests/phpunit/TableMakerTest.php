@@ -17,7 +17,7 @@ class TestMaker extends TableMaker {
 	}
 }
 
-class TableMakerTest extends \PHPUnit_Framework_TestCase
+class TableMakerTest extends \PHPUnit\Framework\TestCase
 {
 	public function testMaker() {
 		$config = new Config();
