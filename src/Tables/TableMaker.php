@@ -52,7 +52,10 @@ abstract class TableMaker {
         $sql = '';
 
         foreach($this->tables as $table) {
-            $sql .= $table->createSQL() . "\n";
+        	$create = $table->createSQL();
+        	if($create !== null) {
+		        $sql .= $create . "\n";
+	        }
         }
 
         foreach($this->makers as $maker) {
@@ -94,9 +97,14 @@ abstract class TableMaker {
             }
         }
 
-        if($pdo->query($this->createSQL()) === false) {
-            return false;
+        // Allow for empty create SQL
+        $create = $this->createSQL();
+        if(strlen($create) > 0) {
+	        if($pdo->query($create) === false) {
+		        return false;
+	        }
         }
+
 
         return $this->alter();
     }

@@ -6,24 +6,33 @@
 
 namespace CL\Tables;
 
+use \PDO;
+
 /**
  * Configuration data for site.
+ *
+ * @cond
+ * @property string prefix
+ * @property PDO pdo
+ * @property string dbname
+ * @endcond
  */
 class Config {
 
-    /**
-     * Property getting magic function
-     *
-     * <b>Properties</b>
-     * Property | Type | Description
-     * -------- | ---- | -----------
-     * prefix | string | Table name prefix
-     * pdo | \\PDO | The PDO object
-     * dbname | string | The database name (needed for testing)
-     *
-     * @param string $key Property name
-     * @return null|string
-     */
+	/**
+	 * Property getting magic function
+	 *
+	 * <b>Properties</b>
+	 * Property | Type | Description
+	 * -------- | ---- | -----------
+	 * prefix | string | Table name prefix
+	 * pdo | PDO | The PDO object
+	 * dbname | string | The database name (needed for testing)
+	 *
+	 * @param string $key Property name
+	 * @return null|string
+	 * @throws TableException on failure to initialize table
+	 */
     public function __get($key) {
         switch($key) {
             case 'prefix':
@@ -52,8 +61,8 @@ class Config {
      * <b>Properties</b>
      * None for now, but maybe in the future?
      *
-     * @param $key Property name
-     * @param $value Value to set
+     * @param string $key Property name
+     * @param mixed $value Value to set
      */
     public function __set($key, $value) {
         switch($key) {
@@ -70,11 +79,11 @@ class Config {
 
     /**
      * Configure the database
-     * @param $dbhost Database host
-     * @param $dbname The database name (used for testing)
-     * @param $dbuser Site user account
-     * @param $dbpassword Password
-     * @param $prefix Table prefix
+     * @param string $dbhost Database host
+     * @param string $dbname The database name (used for testing)
+     * @param string $dbuser Site user account
+     * @param string $dbpassword Password
+     * @param string $prefix Table prefix
      */
     public function configure($dbhost, $dbname, $dbuser, $dbpassword, $prefix) {
         $this->dbhost = $dbhost;
@@ -86,7 +95,7 @@ class Config {
 
     /**
      * Database connection object (PDO)
-     * @throws APIException if unable to select database
+     * @throws TableException if unable to select database
      */
     public function pdo() {
         if($this->pdo === null) {
@@ -122,7 +131,7 @@ class Config {
 	private $dbname = null;     // Database name
     private $dbuser = null;	    // Database user
     private $dbpassword = null;	// Database password
-    private $prefix;            ///< Table prefix
+    private $prefix;            // Table prefix
 
-    private $pdo = null;	///< The PDO object
+    private $pdo = null;	    // The PDO object
 }

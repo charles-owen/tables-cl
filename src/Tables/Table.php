@@ -13,6 +13,8 @@ use \PDO;
  *
  * @cond
  * @property PDO pdo
+ * @property string prefix Table names prefix
+ * @property string tablename The Table name
  * @endcond
  */
 abstract class Table {
@@ -29,7 +31,7 @@ abstract class Table {
 
 	/**
 	 * Property get magic method
-	 * @param $key Property name
+	 * @param string $key Property name
 	 *
 	 * Properties supported:
 	 * tablename The table name
@@ -37,6 +39,7 @@ abstract class Table {
 	 * pdo The PDO object
 	 *
 	 * @return null|string
+	 * @throws TableException on error
 	 */
 	public function __get($key) {
 		switch($key) {
@@ -62,8 +65,8 @@ abstract class Table {
 
 	/**
 	 * Property set magic method
-	 * @param $key Property name
-	 * @param $value Value to set
+	 * @param string $key Property name
+	 * @param mixed $value Value to set
 	 */
 	public function __set($key, $value) {
 		$trace = debug_backtrace();
@@ -78,7 +81,7 @@ abstract class Table {
 	 * Diagnostic routine that substitutes into an SQL statement
 	 * @param string $query The query with : or ? parameters
 	 * @param array $params The arguments to substitute
-	 * @return Query as a string
+	 * @return string Query as a string
 	 */
 	public function sub_sql($query, $params) {
         $keys = array();
@@ -110,17 +113,18 @@ abstract class Table {
         return $query;		
 	}
 
-    /**
-     * Get the PDO object
-     * @return PDO object
-     */
+	/**
+	 * Get the PDO object
+	 * @return PDO object
+	 * @throws TableException
+	 */
     public function pdo() {
         return $this->config->pdo();
     }
 
 	/**
 	 * Check to see if the table exists
-	 * @return true if it does
+	 * @return boolean true if it does
 	 */
     public function exists() {
     	$sql = <<<SQL
@@ -141,8 +145,8 @@ SQL;
 
     /**
      * Convert a system time to the format for storing in the database
-     * @param $time Time convert. If omitted, use the current time.
-     * @return string
+     * @param int $time Time convert. If omitted, use the current time.
+     * @return string Time as a string
      */
     public static function timeStr($time=null) {
         if($time === null) {
@@ -155,8 +159,9 @@ SQL;
 
 	/**
 	 * Check if a named index exits in a table
-	 * @param $name
+	 * @param string $name
 	 * @return bool true if named exit exists
+	 * @throws TableException
 	 */
 	public function indexExists($name) {
 		$pdo = $this->pdo();
@@ -173,11 +178,18 @@ SQL;
 		return false;
 	}
 
-	/** Create the appropriate SQL CREATE TABLE command to create the table. */
+	/**
+	 * Create the appropriate SQL CREATE TABLE command to create the table.
+	 * @return null|string CREATE TABLE command or null if none
+	 */
 	public function createSQL() {
+		return null;
 	}
 
-	/** Create the appropriate SQL DROP TABLE command to drop the table. */
+	/**
+	 * Create the appropriate SQL DROP TABLE command to drop the table.
+	 * @return string SQL
+	 */
 	public function dropSQL() {
 		return <<<SQL
 drop table if exists $this->tablename;
